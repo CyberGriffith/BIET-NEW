@@ -2,6 +2,7 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import { INSTITUTION_INFO } from '../data/mockData';
 import { MapPin, Phone, Mail, ArrowUp } from 'lucide-react';
+import bietLogo from '../assets/biet-campus-logo-scaled.png';
 
 interface FooterProps {
   onApplyClick: () => void;
@@ -25,12 +26,11 @@ export const Footer: React.FC<FooterProps> = ({
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-12 gap-12 pb-12 border-b border-neutral-800">
           {/* Brand & Mission Column */}
           <div className="lg:col-span-4 space-y-5">
-            <Link to="/" className="inline-block bg-white px-3 py-1.5 rounded-full shadow-xs focus:outline-none focus:ring-2 focus:ring-[#FFCC00]">
+            <Link to="/" className="inline-block bg-white px-3 py-1.5 rounded-full shadow-xs focus:outline-none focus:ring-2 focus:ring-[#FFCC00] hover:scale-[1.01] transition-transform duration-200">
               <img
-                src="/assets/aistudio/biet-campus-logo-scaled_d6436e2e.png"
+                src={bietLogo}
                 alt="British Institute of Engineering and Technology (BIET) Official Logo"
                 className="h-8 w-auto object-contain"
-                referrerPolicy="no-referrer"
               />
             </Link>
 
