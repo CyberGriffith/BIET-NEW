@@ -1,0 +1,250 @@
+import React from 'react';
+import { Link } from 'react-router-dom';
+import { INSTITUTION_INFO } from '../data/mockData';
+import { MapPin, Phone, Mail, ArrowUp } from 'lucide-react';
+
+interface FooterProps {
+  onApplyClick: () => void;
+  onProspectusClick: () => void;
+}
+
+export const Footer: React.FC<FooterProps> = ({
+  onApplyClick,
+  onProspectusClick,
+}) => {
+  const scrollToTop = () => {
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  };
+
+  const currentYear = new Date().getFullYear();
+
+  return (
+    <footer className="bg-[#111111] text-white border-t border-neutral-800">
+      {/* Main Footer Content */}
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-16 pb-12">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-12 gap-12 pb-12 border-b border-neutral-800">
+          {/* Brand & Mission Column */}
+          <div className="lg:col-span-4 space-y-5">
+            <Link to="/" className="inline-block bg-white px-3 py-1.5 rounded-full shadow-xs focus:outline-none focus:ring-2 focus:ring-[#FFCC00]">
+              <img
+                src="/assets/aistudio/biet-campus-logo-scaled_d6436e2e.png"
+                alt="British Institute of Engineering and Technology (BIET) Official Logo"
+                className="h-8 w-auto object-contain"
+                referrerPolicy="no-referrer"
+              />
+            </Link>
+
+            <p className="text-xs sm:text-sm text-neutral-300 leading-relaxed max-w-sm">
+              The British Institute of Engineering and Technology (BIET) delivers higher education in Engineering,
+              Computing, and Built Environment modeled on British curricula in Sri Lanka.
+            </p>
+
+            {/* Social Links */}
+            <div className="flex items-center gap-3 pt-1">
+              <a
+                href={INSTITUTION_INFO.socials.linkedin}
+                target="_blank"
+                rel="noreferrer"
+                aria-label="BIET on LinkedIn"
+                className="w-8 h-8 rounded-lg bg-neutral-900 hover:bg-[#FFCC00] hover:text-[#111111] text-neutral-300 border border-neutral-800 flex items-center justify-center transition-colors text-xs font-bold"
+              >
+                in
+              </a>
+              <a
+                href={INSTITUTION_INFO.socials.facebook}
+                target="_blank"
+                rel="noreferrer"
+                aria-label="BIET on Facebook"
+                className="w-8 h-8 rounded-lg bg-neutral-900 hover:bg-[#FFCC00] hover:text-[#111111] text-neutral-300 border border-neutral-800 flex items-center justify-center transition-colors text-xs font-bold"
+              >
+                fb
+              </a>
+              <a
+                href={INSTITUTION_INFO.socials.instagram}
+                target="_blank"
+                rel="noreferrer"
+                aria-label="BIET on Instagram"
+                className="w-8 h-8 rounded-lg bg-neutral-900 hover:bg-[#FFCC00] hover:text-[#111111] text-neutral-300 border border-neutral-800 flex items-center justify-center transition-colors text-xs font-bold"
+              >
+                ig
+              </a>
+              <a
+                href={INSTITUTION_INFO.socials.youtube}
+                target="_blank"
+                rel="noreferrer"
+                aria-label="BIET on YouTube"
+                className="w-8 h-8 rounded-lg bg-neutral-900 hover:bg-[#FFCC00] hover:text-[#111111] text-neutral-300 border border-neutral-800 flex items-center justify-center transition-colors text-xs font-bold"
+              >
+                yt
+              </a>
+            </div>
+          </div>
+
+          {/* Academic Schools */}
+          <div className="lg:col-span-3 space-y-4">
+            <h4 className="text-xs font-bold uppercase tracking-wider text-white flex items-center gap-1.5">
+              <span className="w-2 h-2 rounded-full bg-[#FFCC00]" />
+              <span>Disciplines</span>
+            </h4>
+            <ul className="space-y-2 text-xs text-neutral-400">
+              <li>
+                <Link to="/programmes?category=engineering" className="hover:text-[#FFCC00] transition-colors">
+                  Civil &amp; Structural Engineering
+                </Link>
+              </li>
+              <li>
+                <Link to="/programmes?category=engineering" className="hover:text-[#FFCC00] transition-colors">
+                  Mechanical &amp; Manufacturing
+                </Link>
+              </li>
+              <li>
+                <Link to="/programmes?category=engineering" className="hover:text-[#FFCC00] transition-colors">
+                  Electrical &amp; Electronic Systems
+                </Link>
+              </li>
+              <li>
+                <Link to="/programmes?category=computing" className="hover:text-[#FFCC00] transition-colors">
+                  Software Engineering &amp; Cloud
+                </Link>
+              </li>
+              <li>
+                <Link to="/programmes?category=computing" className="hover:text-[#FFCC00] transition-colors">
+                  Cyber Security &amp; Networks
+                </Link>
+              </li>
+              <li>
+                <Link to="/programmes?category=built-environment" className="hover:text-[#FFCC00] transition-colors">
+                  Quantity Surveying &amp; Built Assets
+                </Link>
+              </li>
+            </ul>
+          </div>
+
+          {/* Quick Institutional Links */}
+          <div className="lg:col-span-2 space-y-4">
+            <h4 className="text-xs font-bold uppercase tracking-wider text-white flex items-center gap-1.5">
+              <span className="w-2 h-2 rounded-full bg-[#FFCC00]" />
+              <span>Navigation</span>
+            </h4>
+            <ul className="space-y-2 text-xs text-neutral-400">
+              <li>
+                <Link to="/" className="hover:text-[#FFCC00] transition-colors">
+                  Home
+                </Link>
+              </li>
+              <li>
+                <Link to="/about" className="hover:text-[#FFCC00] transition-colors">
+                  About BIET
+                </Link>
+              </li>
+              <li>
+                <Link to="/programmes" className="hover:text-[#FFCC00] transition-colors">
+                  Programmes
+                </Link>
+              </li>
+              <li>
+                <Link to="/admissions" className="hover:text-[#FFCC00] transition-colors">
+                  Admissions
+                </Link>
+              </li>
+              <li>
+                <Link to="/student-life" className="hover:text-[#FFCC00] transition-colors">
+                  Student Life
+                </Link>
+              </li>
+              <li>
+                <Link to="/news" className="hover:text-[#FFCC00] transition-colors">
+                  News &amp; Events
+                </Link>
+              </li>
+              <li>
+                <Link to="/contact" className="hover:text-[#FFCC00] transition-colors">
+                  Contact Us
+                </Link>
+              </li>
+              <li>
+                <button
+                  onClick={onProspectusClick}
+                  className="hover:text-[#FFCC00] transition-colors text-left cursor-pointer"
+                >
+                  Prospectus
+                </button>
+              </li>
+              <li>
+                <button
+                  onClick={onApplyClick}
+                  className="text-[#FFCC00] hover:underline transition-colors text-left font-bold cursor-pointer"
+                >
+                  Apply Now
+                </button>
+              </li>
+            </ul>
+          </div>
+
+          {/* Contact Details */}
+          <div className="lg:col-span-3 space-y-4">
+            <h4 className="text-xs font-bold uppercase tracking-wider text-white flex items-center gap-1.5">
+              <span className="w-2 h-2 rounded-full bg-[#FFCC00]" />
+              <span>Campus Office</span>
+            </h4>
+            <div className="space-y-3 text-xs text-neutral-400">
+              <div className="flex items-start gap-2">
+                <MapPin className="w-3.5 h-3.5 text-[#FFCC00] mt-0.5 shrink-0" />
+                <span>{INSTITUTION_INFO.campusAddressPlaceholder}</span>
+              </div>
+              <div className="flex items-start gap-2">
+                <Phone className="w-3.5 h-3.5 text-[#FFCC00] mt-0.5 shrink-0" />
+                <span>{INSTITUTION_INFO.telephonePlaceholder}</span>
+              </div>
+              <div className="flex items-start gap-2">
+                <Mail className="w-3.5 h-3.5 text-[#FFCC00] mt-0.5 shrink-0" />
+                <span>{INSTITUTION_INFO.emailPlaceholder}</span>
+              </div>
+            </div>
+
+            <div className="pt-2">
+              <button
+                onClick={onApplyClick}
+                className="w-full py-2.5 px-4 text-xs font-bold uppercase tracking-wider text-[#111111] bg-[#FFCC00] hover:bg-[#E6B800] rounded-xl transition-colors cursor-pointer text-center shadow-xs"
+              >
+                Apply Now
+              </button>
+            </div>
+          </div>
+        </div>
+
+        {/* Regulatory Governance Statement (clean and brief) */}
+        <div className="py-5 border-b border-neutral-800 text-xs text-neutral-400 leading-relaxed">
+          <p>
+            <span className="text-white font-semibold">Institutional Notice: </span>
+            British Institute of Engineering and Technology (BIET) · Colombo Campus, Sri Lanka. Partner details and formal accreditations subject to official publication.
+          </p>
+        </div>
+
+        {/* Bottom Sub-Footer */}
+        <div className="pt-6 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-neutral-400">
+          <div>
+            © {currentYear} British Institute of Engineering and Technology (BIET). All rights reserved.
+          </div>
+
+          <div className="flex items-center gap-6">
+            <span className="hover:text-white transition-colors cursor-pointer">
+              Privacy Policy
+            </span>
+            <span className="hover:text-white transition-colors cursor-pointer">
+              Terms of Enrollment
+            </span>
+            <button
+              onClick={scrollToTop}
+              className="flex items-center gap-1 text-white hover:text-[#FFCC00] transition-colors cursor-pointer font-bold"
+              aria-label="Back to top"
+            >
+              <span>Top</span>
+              <ArrowUp className="w-3.5 h-3.5 text-[#FFCC00]" />
+            </button>
+          </div>
+        </div>
+      </div>
+    </footer>
+  );
+};

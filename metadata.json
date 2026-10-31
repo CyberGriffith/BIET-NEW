@@ -1,0 +1,6 @@
+{
+  "name": "BIET - British Institute of Engineering and Technology",
+  "description": "Official institutional portal of the British Institute of Engineering and Technology (BIET), Sri Lanka. Explore world-class engineering and technology higher education programmes.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
