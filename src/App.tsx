@@ -19,11 +19,12 @@ import { StudentLifePage } from './pages/StudentLifePage';
 import { NewsEventsPage } from './pages/NewsEventsPage';
 import { ContactPage } from './pages/ContactPage';
 
-// Shared Modals
+// Shared Modals & Floating Widgets
 import { ApplicationModal } from './components/ApplicationModal';
 import { ProgrammeDetailModal } from './components/ProgrammeDetailModal';
 import { ProspectusModal } from './components/ProspectusModal';
 import { NewsArticleModal } from './components/NewsArticleModal';
+import { WhatsAppButton } from './components/WhatsAppButton';
 import { Programme, NewsItem } from './types';
 
 export default function App() {
@@ -157,6 +158,9 @@ export default function App() {
           onClose={() => setSelectedNewsArticle(null)}
           onApplyClick={() => handleOpenApplyModal()}
         />
+
+        {/* Floating WhatsApp Admissions Click to Chat Widget */}
+        <WhatsAppButton />
       </div>
     </Router>
   );

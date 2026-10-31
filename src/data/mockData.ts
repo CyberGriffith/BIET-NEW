@@ -892,6 +892,8 @@ export const INSTITUTION_INFO = {
   statutoryNote: 'Higher Education Institution in Sri Lanka. Academic programmes, awarding bodies, and institutional affiliations are subject to formal confirmation. [Accreditation & Partnership Placeholder]',
   campusAddressPlaceholder: 'BIET Campus, Colombo, Sri Lanka [Detailed Campus Address Placeholder]',
   telephonePlaceholder: '+94 (0) 11 2XX XXXX [Telephone Placeholder]',
+  telephone: '+94 11 234 5678',
+  whatsappNumber: '94112345678',
   emailPlaceholder: 'info@biet.lk / admissions@biet.lk [Email Placeholder]',
   hours: 'Monday – Saturday: 8:30 AM – 5:30 PM (IST)',
   socials: {
