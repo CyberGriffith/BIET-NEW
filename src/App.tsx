@@ -25,6 +25,8 @@ import { ProgrammeDetailModal } from './components/ProgrammeDetailModal';
 import { ProspectusModal } from './components/ProspectusModal';
 import { NewsArticleModal } from './components/NewsArticleModal';
 import { WhatsAppButton } from './components/WhatsAppButton';
+import { FindMyPathPage } from './pages/FindMyPathPage';
+import { PROGRAMMES_DATA } from './data/mockData';
 import { Programme, NewsItem } from './types';
 
 export default function App() {
@@ -37,6 +39,13 @@ export default function App() {
   const handleOpenApplyModal = (programmeTitle?: string) => {
     setPreSelectedCourse(programmeTitle);
     setIsAppModalOpen(true);
+  };
+
+  const handleOpenProgrammeDetails = (programmeId: string) => {
+    const found = PROGRAMMES_DATA.find((p) => p.id === programmeId);
+    if (found) {
+      setSelectedProgramme(found);
+    }
   };
 
   return (
@@ -119,6 +128,15 @@ export default function App() {
               }
             />
             <Route path="/contact" element={<ContactPage />} />
+            <Route
+              path="/find-my-path"
+              element={
+                <FindMyPathPage
+                  onViewProgrammeDetails={handleOpenProgrammeDetails}
+                  onApplyForProgramme={(title) => handleOpenApplyModal(title)}
+                />
+              }
+            />
             {/* Fallback route */}
             <Route path="*" element={<Navigate to="/" replace />} />
           </Routes>

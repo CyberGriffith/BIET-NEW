@@ -133,6 +133,12 @@ export const Footer: React.FC<FooterProps> = ({
                 </Link>
               </li>
               <li>
+                <Link to="/find-my-path" className="hover:text-[#FFCC00] text-[#FFCC00] font-semibold transition-colors flex items-center gap-1">
+                  <span>Find My Path Tool</span>
+                  <span className="text-[10px] bg-[#FFCC00]/20 text-[#FFCC00] px-1.5 py-0.2 rounded font-extrabold">NEW</span>
+                </Link>
+              </li>
+              <li>
                 <Link to="/about" className="hover:text-[#FFCC00] transition-colors">
                   About BIET
                 </Link>

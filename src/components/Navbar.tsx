@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Link, useLocation } from 'react-router-dom';
-import { Menu, X, ArrowUpRight, Download } from 'lucide-react';
+import { Menu, X, ArrowUpRight, Download, Compass } from 'lucide-react';
 import bietLogo from '../assets/biet-campus-logo-scaled.png';
 
 interface NavbarProps {
@@ -31,9 +31,9 @@ export const Navbar: React.FC<NavbarProps> = ({
 
   const navLinks = [
     { label: 'Home', path: '/' },
-    { label: 'About BIET', path: '/about' },
     { label: 'Programmes', path: '/programmes' },
     { label: 'Admissions', path: '/admissions' },
+    { label: 'About BIET', path: '/about' },
     { label: 'Student Life', path: '/student-life' },
     { label: 'News & Events', path: '/news' },
     { label: 'Contact', path: '/contact' },
@@ -100,7 +100,7 @@ export const Navbar: React.FC<NavbarProps> = ({
 
           {/* Zone 2: Navigation Links (White text with BIET Yellow hover & active indicator) */}
           <nav
-            className="hidden xl:flex items-center gap-1 text-[13px] font-medium text-white/90 relative z-10"
+            className="hidden xl:flex items-center gap-1.5 text-[13px] font-medium text-white/90 relative z-10"
             aria-label="Primary navigation"
           >
             {navLinks.map((link) => {
@@ -109,7 +109,7 @@ export const Navbar: React.FC<NavbarProps> = ({
                 <Link
                   key={link.label}
                   to={link.path}
-                  className={`nav-link-item relative px-3.5 py-1.5 rounded-full whitespace-nowrap transition-all duration-200 ${
+                  className={`nav-link-item relative px-3 py-1.5 rounded-full whitespace-nowrap transition-all duration-200 ${
                     active
                       ? 'active-link text-[#FFCC00] font-bold bg-white/10 shadow-xs'
                       : 'text-white/90 hover:text-[#FFCC00] hover:bg-white/[0.08]'
@@ -146,16 +146,16 @@ export const Navbar: React.FC<NavbarProps> = ({
 
           {/* Zone 3: Actions & Mobile Hamburger */}
           <div className="flex items-center gap-2 sm:gap-3 shrink-0 relative z-10">
-            {/* Download Prospectus Button: Smoky Glass with Silver Border */}
-            <button
-              onClick={onProspectusClick}
-              className={`hidden sm:inline-flex items-center gap-1.5 text-xs font-semibold text-white/95 hover:text-white bg-white/10 hover:bg-white/20 border border-white/20 hover:border-white/40 rounded-full backdrop-blur-md shadow-xs hover:shadow transition-all duration-200 hover:-translate-y-0.5 whitespace-nowrap cursor-pointer ${
-                isScrolled ? 'px-3 py-1.5 text-[11px]' : 'px-3.5 sm:px-4 py-2 text-xs'
+            {/* Single Prominent Find My Path Action Button (Replacing Prospectus) */}
+            <Link
+              to="/find-my-path"
+              className={`inline-flex items-center gap-1.5 font-bold text-[#FFCC00] bg-[#FFCC00]/15 hover:bg-[#FFCC00]/25 border border-[#FFCC00]/40 hover:border-[#FFCC00] rounded-full backdrop-blur-md shadow-sm hover:shadow-md transition-all duration-200 hover:-translate-y-0.5 whitespace-nowrap cursor-pointer ${
+                isScrolled ? 'px-3 py-1.5 text-[11px]' : 'px-3.5 sm:px-4.5 py-2 text-xs'
               }`}
             >
-              <Download className="w-3.5 h-3.5 text-white/90" />
-              <span>Prospectus</span>
-            </button>
+              <Compass className="w-3.5 h-3.5 text-[#FFCC00] animate-pulse shrink-0" />
+              <span>Find My Path</span>
+            </Link>
 
             {/* Glossy BIET Yellow Apply Now Button */}
             <button
@@ -188,6 +188,21 @@ export const Navbar: React.FC<NavbarProps> = ({
         {/* Mobile Smoky Graphite Glass Drawer */}
         {mobileMenuOpen && (
           <div className="lg:hidden mt-2 liquid-glass-drawer rounded-3xl p-5 shadow-2xl border border-white/20 animate-in fade-in slide-in-from-top-3 duration-200">
+            {/* Single Featured Prominent Mobile Item: Find My Path */}
+            <Link
+              to="/find-my-path"
+              onClick={() => setMobileMenuOpen(false)}
+              className="flex items-center justify-between px-4 py-3.5 rounded-2xl bg-gradient-to-r from-[#FFCC00]/25 to-[#FFCC00]/15 border border-[#FFCC00]/50 text-[#FFCC00] font-extrabold text-sm mb-3 shadow-lg shadow-[#FFCC00]/10"
+            >
+              <div className="flex items-center gap-2.5">
+                <Compass className="w-5 h-5 text-[#FFCC00] animate-pulse" />
+                <span>Find My Path Tool</span>
+              </div>
+              <span className="text-[10px] bg-[#FFCC00] text-[#111111] px-2 py-0.5 rounded-full font-black uppercase">
+                Interactive
+              </span>
+            </Link>
+
             <div className="space-y-1">
               {navLinks.map((link) => {
                 const active = isLinkActive(link.path);
@@ -196,7 +211,7 @@ export const Navbar: React.FC<NavbarProps> = ({
                     key={link.label}
                     to={link.path}
                     onClick={() => setMobileMenuOpen(false)}
-                    className={`block px-4 py-3 rounded-2xl text-sm transition-all duration-150 ${
+                    className={`block px-4 py-2.5 rounded-2xl text-sm transition-all duration-150 ${
                       active
                         ? 'bg-white/15 text-[#FFCC00] font-bold border-l-4 border-[#FFCC00] shadow-xs'
                         : 'text-white/90 hover:bg-white/10 hover:text-white font-medium'
@@ -210,17 +225,6 @@ export const Navbar: React.FC<NavbarProps> = ({
 
             {/* Drawer Actions */}
             <div className="pt-4 mt-3 border-t border-white/15 flex flex-col gap-2.5">
-              <button
-                onClick={() => {
-                  setMobileMenuOpen(false);
-                  onProspectusClick();
-                }}
-                className="w-full py-2.5 px-4 inline-flex items-center justify-center gap-2 text-sm font-semibold text-white bg-white/10 hover:bg-white/20 border border-white/20 rounded-2xl shadow-xs transition-colors cursor-pointer"
-              >
-                <Download className="w-4 h-4 text-white" />
-                <span>Download Prospectus</span>
-              </button>
-
               <button
                 onClick={() => {
                   setMobileMenuOpen(false);

@@ -6,6 +6,7 @@ import {
   ChevronRight,
   Pause,
   Play,
+  Compass,
 } from 'lucide-react';
 
 interface HeroSectionProps {
@@ -300,6 +301,13 @@ export const HeroSection: React.FC<HeroSectionProps> = ({
 
                   <div className="flex flex-wrap items-center gap-3 pt-2">
                     {renderCta(slide.primaryCta, true)}
+                    <Link
+                      to="/find-my-path"
+                      className="inline-flex items-center justify-center gap-2 px-6 py-3.5 text-xs font-extrabold uppercase tracking-wider rounded-full text-white bg-white/10 hover:bg-white/20 border border-[#FFCC00]/50 hover:border-[#FFCC00] backdrop-blur-md transition-all duration-200 shadow-lg cursor-pointer"
+                    >
+                      <Compass className="w-4 h-4 text-[#FFCC00]" />
+                      <span>Find My Path</span>
+                    </Link>
                     {slide.secondaryCta && renderCta(slide.secondaryCta, false)}
                   </div>
                 </div>
