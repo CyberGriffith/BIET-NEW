@@ -91,6 +91,16 @@ export const ProgrammeDetailModal: React.FC<ProgrammeDetailModalProps> = ({
 
         {/* Modal Body: Tabs / Sections */}
         <div className="p-6 sm:p-8 space-y-8 max-h-[60vh] overflow-y-auto bg-white">
+          {/* Programme Photographic Visual Banner */}
+          <div className="relative h-48 sm:h-56 w-full rounded-2xl overflow-hidden border border-neutral-200 bg-neutral-100 shadow-xs">
+            <ImageWithFallback
+              src={programme.imageUrl}
+              alt={programme.title}
+              imageSvgType={programme.imageSvgType}
+              className="w-full h-full object-cover"
+            />
+          </div>
+
           {/* Section 1: Detailed Curriculum Structure */}
           <div>
             <div className="flex items-center gap-2 text-xs font-bold uppercase tracking-wider text-[#111111] mb-4">

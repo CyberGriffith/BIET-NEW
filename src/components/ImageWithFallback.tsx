@@ -1,30 +1,44 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import { ProgrammeIllustration } from './ProgrammeIllustration';
 
 interface ImageWithFallbackProps extends React.ImgHTMLAttributes<HTMLImageElement> {
   fallbackSrc?: string;
   fallbackText?: string;
+  imageSvgType?: 'civil' | 'mechanical' | 'electrical' | 'software' | 'cyber' | 'quantity-surveying';
 }
 
 export const ImageWithFallback: React.FC<ImageWithFallbackProps> = ({
   src,
   alt,
   className = '',
-  fallbackSrc,
+  fallbackSrc = 'https://images.unsplash.com/photo-1504307651254-35680f356dfd?auto=format&fit=crop&w=1200&q=80',
   fallbackText,
+  imageSvgType,
   ...props
 }) => {
+  const [currentSrc, setCurrentSrc] = useState<string | undefined>(src);
   const [hasError, setHasError] = useState(false);
   const [isLoaded, setIsLoaded] = useState(false);
 
+  useEffect(() => {
+    setCurrentSrc(src);
+    setHasError(false);
+    setIsLoaded(false);
+  }, [src]);
+
   const handleError = () => {
-    if (fallbackSrc && src !== fallbackSrc) {
-      setHasError(false);
+    if (currentSrc !== fallbackSrc && fallbackSrc) {
+      setCurrentSrc(fallbackSrc);
     } else {
       setHasError(true);
     }
   };
 
-  if (hasError || !src) {
+  if (hasError || !currentSrc) {
+    if (imageSvgType) {
+      return <ProgrammeIllustration type={imageSvgType} className={className} />;
+    }
+
     return (
       <div
         className={`bg-neutral-900 border border-neutral-800 flex flex-col items-center justify-center p-4 relative overflow-hidden ${className}`}
@@ -56,7 +70,7 @@ export const ImageWithFallback: React.FC<ImageWithFallbackProps> = ({
         <div className="absolute inset-0 bg-neutral-900 animate-pulse pointer-events-none" />
       )}
       <img
-        src={src}
+        src={currentSrc}
         alt={alt || 'BIET Campus Visual'}
         className={`w-full h-full object-cover transition-opacity duration-300 ${
           isLoaded ? 'opacity-100' : 'opacity-0'

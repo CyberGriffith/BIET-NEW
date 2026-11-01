@@ -18,6 +18,7 @@ import {
 } from 'lucide-react';
 import { PROGRAMMES_DATA, INSTITUTION_INFO } from '../data/mockData';
 import { ProgrammeIllustration } from '../components/ProgrammeIllustration';
+import { ImageWithFallback } from '../components/ImageWithFallback';
 
 interface ProgrammeDetailPageProps {
   onApplyClick: (programmeTitle?: string) => void;
@@ -165,9 +166,14 @@ export const ProgrammeDetailPage: React.FC<ProgrammeDetailPageProps> = ({
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 items-start">
             {/* Left Column: Academic Content */}
             <div className="lg:col-span-8 space-y-10">
-              {/* Graphic Banner */}
-              <div className="rounded-3xl overflow-hidden border border-neutral-200 shadow-sm">
-                <ProgrammeIllustration type={programme.imageSvgType} className="w-full h-56 sm:h-64" />
+              {/* Photographic Banner */}
+              <div className="rounded-3xl overflow-hidden border border-neutral-200 shadow-sm relative h-64 sm:h-80 w-full bg-neutral-100">
+                <ImageWithFallback
+                  src={programme.imageUrl}
+                  alt={programme.title}
+                  imageSvgType={programme.imageSvgType}
+                  className="w-full h-full object-cover"
+                />
               </div>
 
               {/* Section 1: Overview */}
