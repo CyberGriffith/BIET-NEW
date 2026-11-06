@@ -307,7 +307,7 @@ export const ProgrammeDetailPage: React.FC<ProgrammeDetailPageProps> = ({
                       </div>
                       <div className="space-y-0.5">
                         <span className="text-sm sm:text-base font-semibold text-neutral-900">{req}</span>
-                        {programme.id !== 'foundation-in-engineering' && programme.id !== 'beng-mechanical-manufacturing' && (
+                        {programme.id !== 'foundation-in-engineering' && programme.id !== 'beng-mechanical-manufacturing' && programme.id !== 'beng-mechanical-mechatronics' && (
                           <p className="text-xs text-neutral-500">
                             Students with relevant foundation diplomas or equivalent qualifications are encouraged to apply.
                           </p>
@@ -613,6 +613,10 @@ export const ProgrammeDetailPage: React.FC<ProgrammeDetailPageProps> = ({
                     ) : programme.id === 'beng-mechanical-manufacturing' ? (
                       <>
                         Graduates of the BEng (Hons) Mechanical Engineering specialise in Manufacturing programme, affiliated with the University of West England, earn a full honours degree that enables direct progression to Master’s programmes (MSc, MEng, MPhil, or PhD).
+                      </>
+                    ) : programme.id === 'beng-mechanical-mechatronics' ? (
+                      <>
+                        Graduates of the BEng(Hons) Mechanical Engineering specialise in Mechatronics programme, affiliated with the University of West England, earn a full honours degree that enables direct progression to Master’s programmes (MSc, MEng, MPhil, or PhD).
                       </>
                     ) : programme.id === 'beng-electrical-electronics' ? (
                       <>
