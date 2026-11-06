@@ -30,7 +30,12 @@ export const ApplicationModal: React.FC<ApplicationModalProps> = ({
 
   useEffect(() => {
     if (preSelectedProgramme) {
-      setFormData((prev) => ({ ...prev, programme: preSelectedProgramme }));
+      const matchedProg = PROGRAMMES_DATA.find((p) => p.title === preSelectedProgramme);
+      setFormData((prev) => ({
+        ...prev,
+        programme: preSelectedProgramme,
+        intake: matchedProg?.intakes?.[0] || prev.intake,
+      }));
     }
   }, [preSelectedProgramme]);
 
@@ -150,7 +155,15 @@ export const ApplicationModal: React.FC<ApplicationModalProps> = ({
                   </label>
                   <select
                     value={formData.programme}
-                    onChange={(e) => setFormData({ ...formData, programme: e.target.value })}
+                    onChange={(e) => {
+                      const newProg = e.target.value;
+                      const matched = PROGRAMMES_DATA.find((p) => p.title === newProg);
+                      setFormData({
+                        ...formData,
+                        programme: newProg,
+                        intake: matched?.intakes?.[0] || 'September 2026',
+                      });
+                    }}
                     className="w-full px-3.5 py-2.5 bg-white border border-neutral-300 focus:border-[#111111] focus:ring-1 focus:ring-[#111111] rounded-xl text-xs text-neutral-900 outline-none transition-colors cursor-pointer"
                   >
                     {PROGRAMMES_DATA.map((p) => (
@@ -171,8 +184,18 @@ export const ApplicationModal: React.FC<ApplicationModalProps> = ({
                     onChange={(e) => setFormData({ ...formData, intake: e.target.value })}
                     className="w-full px-3.5 py-2.5 bg-white border border-neutral-300 focus:border-[#111111] focus:ring-1 focus:ring-[#111111] rounded-xl text-xs text-neutral-900 outline-none transition-colors cursor-pointer"
                   >
-                    <option value="September 2026 Intake">September 2026</option>
-                    <option value="February 2027 Intake">February 2027</option>
+                    {(
+                      PROGRAMMES_DATA.find((p) => p.title === formData.programme)?.intakes || [
+                        'September 2026',
+                        'February 2027',
+                        '5 March 2027',
+                        '5 September 2027',
+                      ]
+                    ).map((intakeName) => (
+                      <option key={intakeName} value={intakeName}>
+                        {intakeName}
+                      </option>
+                    ))}
                   </select>
                 </div>
               </div>

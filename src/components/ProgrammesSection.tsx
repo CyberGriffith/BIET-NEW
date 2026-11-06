@@ -77,7 +77,13 @@ export const ProgrammesSection: React.FC<ProgrammesSectionProps> = ({
                     {prog.school.replace('School of ', '')}
                   </span>
                   <h3 className="text-lg font-bold text-[#111111] group-hover:text-black leading-snug">
-                    {prog.title}
+                    <Link
+                      to={`/programmes/${prog.id}`}
+                      onClick={(e) => e.stopPropagation()}
+                      className="hover:underline"
+                    >
+                      {prog.title}
+                    </Link>
                   </h3>
                   <p className="text-xs text-neutral-600 line-clamp-2 leading-relaxed">
                     {prog.overview}
@@ -87,17 +93,14 @@ export const ProgrammesSection: React.FC<ProgrammesSectionProps> = ({
 
               {/* Action Buttons */}
               <div className="p-6 pt-0 border-t border-neutral-100 mt-2 flex items-center justify-between gap-2">
-                <button
-                  type="button"
-                  onClick={(e) => {
-                    e.stopPropagation();
-                    onSelectProgramme(prog);
-                  }}
+                <Link
+                  to={`/programmes/${prog.id}`}
+                  onClick={(e) => e.stopPropagation()}
                   className="text-xs font-bold text-[#111111] hover:underline flex items-center gap-1 cursor-pointer"
                 >
                   <span>View Details</span>
                   <ArrowRight className="w-3.5 h-3.5 text-[#FFCC00]" />
-                </button>
+                </Link>
                 <button
                   type="button"
                   onClick={(e) => {

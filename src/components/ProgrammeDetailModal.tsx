@@ -1,5 +1,6 @@
 import React from 'react';
-import { X, Calendar, Clock, Award, BookOpen, Layers, CheckCircle2, ArrowRight, Download } from 'lucide-react';
+import { Link } from 'react-router-dom';
+import { X, Calendar, Clock, Award, BookOpen, Layers, CheckCircle2, ArrowRight, Download, ExternalLink } from 'lucide-react';
 import { Programme } from '../types';
 import { ImageWithFallback } from './ImageWithFallback';
 
@@ -108,11 +109,11 @@ export const ProgrammeDetailModal: React.FC<ProgrammeDetailModalProps> = ({
               <span>Curriculum Structure</span>
             </div>
 
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+            <div className={`grid grid-cols-1 ${programme.coreModulesYear3 && programme.coreModulesYear3.length > 0 ? 'md:grid-cols-3' : 'md:grid-cols-2'} gap-4`}>
               {/* Year 1 */}
               <div className="p-5 bg-white rounded-2xl border border-neutral-200 shadow-xs">
                 <div className="text-xs font-bold uppercase tracking-wider text-[#111111] mb-2 pb-2 border-b border-neutral-100 flex items-center justify-between">
-                  <span>Year 1: Foundations</span>
+                  <span>Part / Year 1</span>
                   <span className="w-1.5 h-1.5 rounded-full bg-[#FFCC00]" />
                 </div>
                 <ul className="space-y-2 text-xs text-neutral-700">
@@ -128,7 +129,7 @@ export const ProgrammeDetailModal: React.FC<ProgrammeDetailModalProps> = ({
               {/* Year 2 */}
               <div className="p-5 bg-white rounded-2xl border border-neutral-200 shadow-xs">
                 <div className="text-xs font-bold uppercase tracking-wider text-[#111111] mb-2 pb-2 border-b border-neutral-100 flex items-center justify-between">
-                  <span>Year 2: Core Engineering</span>
+                  <span>Part / Year 2</span>
                   <span className="w-1.5 h-1.5 rounded-full bg-[#FFCC00]" />
                 </div>
                 <ul className="space-y-2 text-xs text-neutral-700">
@@ -141,21 +142,23 @@ export const ProgrammeDetailModal: React.FC<ProgrammeDetailModalProps> = ({
                 </ul>
               </div>
 
-              {/* Year 3 */}
-              <div className="p-5 bg-white rounded-2xl border border-neutral-200 shadow-xs">
-                <div className="text-xs font-bold uppercase tracking-wider text-[#111111] mb-2 pb-2 border-b border-neutral-100 flex items-center justify-between">
-                  <span>Year 3: Advanced &amp; Capstone</span>
-                  <span className="w-1.5 h-1.5 rounded-full bg-[#FFCC00]" />
+              {/* Year 3 (if applicable) */}
+              {programme.coreModulesYear3 && programme.coreModulesYear3.length > 0 && (
+                <div className="p-5 bg-white rounded-2xl border border-neutral-200 shadow-xs">
+                  <div className="text-xs font-bold uppercase tracking-wider text-[#111111] mb-2 pb-2 border-b border-neutral-100 flex items-center justify-between">
+                    <span>Year 3: Advanced &amp; Capstone</span>
+                    <span className="w-1.5 h-1.5 rounded-full bg-[#FFCC00]" />
+                  </div>
+                  <ul className="space-y-2 text-xs text-neutral-700">
+                    {programme.coreModulesYear3.map((mod, i) => (
+                      <li key={i} className="flex items-start gap-2">
+                        <span className="text-[#111111] font-bold">·</span>
+                        <span>{mod}</span>
+                      </li>
+                    ))}
+                  </ul>
                 </div>
-                <ul className="space-y-2 text-xs text-neutral-700">
-                  {programme.coreModulesYear3.map((mod, i) => (
-                    <li key={i} className="flex items-start gap-2">
-                      <span className="text-[#111111] font-bold">·</span>
-                      <span>{mod}</span>
-                    </li>
-                  ))}
-                </ul>
-              </div>
+              )}
             </div>
           </div>
 
@@ -205,13 +208,24 @@ export const ProgrammeDetailModal: React.FC<ProgrammeDetailModalProps> = ({
 
         {/* Modal Action Bar */}
         <div className="bg-white p-6 border-t border-neutral-200 flex flex-wrap items-center justify-between gap-4">
-          <button
-            onClick={onDownloadProspectus}
-            className="inline-flex items-center gap-1.5 px-4 py-2.5 text-xs font-semibold text-[#111111] hover:underline transition-colors cursor-pointer"
-          >
-            <Download className="w-3.5 h-3.5" />
-            <span>Download Syllabus</span>
-          </button>
+          <div className="flex items-center gap-4 flex-wrap">
+            <Link
+              to={`/programmes/${programme.id}`}
+              onClick={onClose}
+              className="inline-flex items-center gap-1.5 text-xs font-bold text-[#111111] bg-neutral-100 hover:bg-[#FFCC00]/25 px-3.5 py-2 rounded-xl transition-colors"
+            >
+              <ExternalLink className="w-3.5 h-3.5" />
+              <span>Full Programme Page</span>
+            </Link>
+
+            <button
+              onClick={onDownloadProspectus}
+              className="inline-flex items-center gap-1.5 px-2 py-2 text-xs font-semibold text-neutral-600 hover:text-black hover:underline transition-colors cursor-pointer"
+            >
+              <Download className="w-3.5 h-3.5" />
+              <span>Download Syllabus</span>
+            </button>
+          </div>
 
           <div className="flex items-center gap-3">
             <button

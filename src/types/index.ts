@@ -13,6 +13,19 @@ export interface ProgrammeYearStructure {
   }[];
 }
 
+export interface ProgrammeModuleItem {
+  no: number;
+  code: string;
+  title: string;
+  credits: number;
+}
+
+export interface ProgrammeGalleryImage {
+  url: string;
+  caption: string;
+  category?: string;
+}
+
 export interface Programme {
   id: string;
   title: string;
@@ -36,6 +49,13 @@ export interface Programme {
   laboratories: string[];
   imageSvgType: 'civil' | 'mechanical' | 'electrical' | 'software' | 'cyber' | 'quantity-surveying';
   imageUrl: string;
+  heroImageUrl?: string;
+  totalCredits?: string;
+  moduleCount?: number;
+  assessmentMethod?: string;
+  progressionOpportunities?: string[];
+  allModules?: ProgrammeModuleItem[];
+  galleryImages?: ProgrammeGalleryImage[];
 }
 
 export interface NewsItem {

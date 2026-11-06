@@ -43,10 +43,10 @@ export const ProgrammesPage: React.FC<ProgrammesPageProps> = ({
   };
 
   const categories: { label: string; value: ProgrammeCategory }[] = [
-    { label: 'All (6)', value: 'all' },
-    { label: 'Engineering (3)', value: 'engineering' },
-    { label: 'Computing & IT (2)', value: 'computing' },
-    { label: 'Built Environment (1)', value: 'built-environment' },
+    { label: `All (${PROGRAMMES_DATA.length})`, value: 'all' },
+    { label: `Engineering (${PROGRAMMES_DATA.filter((p) => p.category === 'engineering').length})`, value: 'engineering' },
+    { label: `Computing & IT (${PROGRAMMES_DATA.filter((p) => p.category === 'computing').length})`, value: 'computing' },
+    { label: `Built Environment (${PROGRAMMES_DATA.filter((p) => p.category === 'built-environment').length})`, value: 'built-environment' },
   ];
 
   const filteredProgrammes = useMemo(() => {
