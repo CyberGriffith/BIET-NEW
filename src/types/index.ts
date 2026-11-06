@@ -18,6 +18,7 @@ export interface ProgrammeModuleItem {
   code: string;
   title: string;
   credits: number;
+  semester?: string;
 }
 
 export interface ProgrammeGalleryImage {
@@ -53,6 +54,8 @@ export interface Programme {
   totalCredits?: string;
   moduleCount?: number;
   assessmentMethod?: string;
+  assessmentNote?: string;
+  affiliatedInstitution?: string;
   progressionOpportunities?: string[];
   allModules?: ProgrammeModuleItem[];
   galleryImages?: ProgrammeGalleryImage[];

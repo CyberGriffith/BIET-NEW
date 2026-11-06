@@ -98,11 +98,19 @@ export const ProgrammeDetailPage: React.FC<ProgrammeDetailPageProps> = ({
                 </span>
                 <span aria-hidden="true" className="text-neutral-400">·</span>
                 <span className="font-bold text-neutral-800">{programme.qualification}</span>
+                {programme.affiliatedInstitution && (
+                  <>
+                    <span aria-hidden="true" className="text-neutral-400">·</span>
+                    <span className="px-3 py-1 rounded-full bg-[#111111] text-white font-extrabold border border-neutral-900 shadow-2xs">
+                      Affiliated: {programme.affiliatedInstitution}
+                    </span>
+                  </>
+                )}
                 {programme.assessmentMethod && (
                   <>
                     <span aria-hidden="true" className="text-neutral-400">·</span>
                     <span className="px-2.5 py-0.5 rounded-full bg-neutral-100 text-neutral-700 font-bold border border-neutral-200">
-                      {programme.assessmentMethod}
+                      {programme.assessmentMethod.includes(',') ? 'Modular Assessment' : programme.assessmentMethod}
                     </span>
                   </>
                 )}
@@ -111,6 +119,13 @@ export const ProgrammeDetailPage: React.FC<ProgrammeDetailPageProps> = ({
               <h1 className="text-3xl sm:text-4xl lg:text-5xl font-extrabold text-[#111111] tracking-tight leading-tight text-balance">
                 {programme.title}
               </h1>
+
+              {programme.affiliatedInstitution && (
+                <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-xl bg-neutral-100 border border-neutral-200 text-xs text-neutral-800">
+                  <Award className="w-4 h-4 text-[#FFCC00] shrink-0" />
+                  <span>Awarding / Affiliated Institution: <strong>{programme.affiliatedInstitution}</strong></span>
+                </div>
+              )}
 
               <p className="text-base sm:text-lg text-neutral-600 leading-relaxed max-w-2xl">
                 {programme.overview}
@@ -156,7 +171,7 @@ export const ProgrammeDetailPage: React.FC<ProgrammeDetailPageProps> = ({
                 <div className="absolute bottom-4 left-4 right-4 text-white">
                   <div className="inline-flex items-center gap-2 px-2.5 py-1 rounded-full bg-black/70 backdrop-blur-md text-[11px] font-bold text-[#FFCC00] uppercase tracking-wider">
                     <Sparkles className="w-3.5 h-3.5 text-[#FFCC00]" />
-                    <span>BIET Engineering Faculty</span>
+                    <span>{programme.affiliatedInstitution || 'BIET Engineering Faculty'}</span>
                   </div>
                   <p className="text-xs text-white/90 mt-1.5 font-medium line-clamp-1">
                     Hands-on laboratory training &amp; practical coursework
@@ -167,7 +182,7 @@ export const ProgrammeDetailPage: React.FC<ProgrammeDetailPageProps> = ({
           </div>
 
           {/* 2. Programme Overview Ribbon */}
-          <div className="mt-10 pt-8 border-t border-neutral-200 grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-4 text-xs">
+          <div className={`mt-10 pt-8 border-t border-neutral-200 grid grid-cols-2 sm:grid-cols-3 ${programme.affiliatedInstitution ? 'lg:grid-cols-6' : 'lg:grid-cols-5'} gap-4 text-xs`}>
             <div className="bg-white p-4 rounded-2xl border border-neutral-200 shadow-2xs">
               <div className="text-neutral-500 flex items-center gap-1.5 mb-1.5 font-medium">
                 <Clock className="w-4 h-4 text-[#111111]" />
@@ -182,7 +197,7 @@ export const ProgrammeDetailPage: React.FC<ProgrammeDetailPageProps> = ({
                 <span>Total Credits</span>
               </div>
               <div className="font-extrabold text-[#111111] text-xs sm:text-sm">
-                {programme.totalCredits || '360 UK Credits'}
+                {programme.totalCredits ? (programme.totalCredits.includes('Credits') ? programme.totalCredits : `${programme.totalCredits} Credits`) : '360 UK Credits'}
               </div>
             </div>
 
@@ -194,6 +209,8 @@ export const ProgrammeDetailPage: React.FC<ProgrammeDetailPageProps> = ({
               <div className="font-extrabold text-[#111111] text-sm sm:text-base">
                 {programme.moduleCount
                   ? `${programme.moduleCount} Modules`
+                  : programme.allModules
+                  ? `${programme.allModules.length} Modules`
                   : `${programme.structureBreakdown.reduce((acc, y) => acc + y.modules.length, 0)} Modules`}
               </div>
             </div>
@@ -201,14 +218,14 @@ export const ProgrammeDetailPage: React.FC<ProgrammeDetailPageProps> = ({
             <div className="bg-white p-4 rounded-2xl border border-neutral-200 shadow-2xs">
               <div className="text-neutral-500 flex items-center gap-1.5 mb-1.5 font-medium">
                 <FileText className="w-4 h-4 text-[#111111]" />
-                <span>Assessment Method</span>
+                <span>Assessment</span>
               </div>
-              <div className="font-extrabold text-[#111111] text-sm sm:text-base">
+              <div className="font-extrabold text-[#111111] text-xs sm:text-sm line-clamp-2">
                 {programme.assessmentMethod || 'Coursework & Exams'}
               </div>
             </div>
 
-            <div className="bg-white p-4 rounded-2xl border border-neutral-200 shadow-2xs col-span-2 sm:col-span-1">
+            <div className="bg-white p-4 rounded-2xl border border-neutral-200 shadow-2xs">
               <div className="text-neutral-500 flex items-center gap-1.5 mb-1.5 font-medium">
                 <Calendar className="w-4 h-4 text-[#111111]" />
                 <span>Intake Dates</span>
@@ -217,6 +234,18 @@ export const ProgrammeDetailPage: React.FC<ProgrammeDetailPageProps> = ({
                 {programme.intakes.join(' · ')}
               </div>
             </div>
+
+            {programme.affiliatedInstitution && (
+              <div className="bg-white p-4 rounded-2xl border border-[#FFCC00]/60 shadow-2xs col-span-2 sm:col-span-1 bg-[#FFCC00]/5">
+                <div className="text-neutral-500 flex items-center gap-1.5 mb-1.5 font-medium">
+                  <Building className="w-4 h-4 text-[#111111]" />
+                  <span>Affiliation</span>
+                </div>
+                <div className="font-extrabold text-[#111111] text-xs sm:text-sm">
+                  {programme.affiliatedInstitution}
+                </div>
+              </div>
+            )}
           </div>
         </div>
       </section>
@@ -285,7 +314,7 @@ export const ProgrammeDetailPage: React.FC<ProgrammeDetailPageProps> = ({
                 </ul>
               </div>
 
-              {/* 5. Module Structure (All 12 Modules) */}
+              {/* 5. Module Structure */}
               <div className="bg-white p-8 rounded-3xl border border-neutral-200 shadow-sm space-y-6">
                 <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-2 border-b border-neutral-200">
                   <div>
@@ -295,7 +324,11 @@ export const ProgrammeDetailPage: React.FC<ProgrammeDetailPageProps> = ({
                     </div>
                     <h2 className="text-2xl font-bold text-[#111111] mt-1">Module Structure</h2>
                     <p className="text-xs text-neutral-500 mt-1">
-                      {programme.allModules ? 'All 12 modules are assessed via coursework.' : 'Comprehensive modular structure.'}
+                      {programme.assessmentNote
+                        ? programme.assessmentNote
+                        : programme.allModules
+                        ? `All ${programme.allModules.length} modules structured for academic excellence.`
+                        : 'Comprehensive modular structure.'}
                     </p>
                   </div>
 
@@ -327,7 +360,7 @@ export const ProgrammeDetailPage: React.FC<ProgrammeDetailPageProps> = ({
                   )}
                 </div>
 
-                {/* Display All 12 Modules in Table Mode */}
+                {/* Display Modules in Table Mode */}
                 {programme.allModules && moduleViewMode === 'table' ? (
                   <div className="space-y-4">
                     <div className="overflow-x-auto rounded-2xl border border-neutral-200 shadow-2xs">
@@ -338,6 +371,9 @@ export const ProgrammeDetailPage: React.FC<ProgrammeDetailPageProps> = ({
                             <th className="py-3.5 px-4">Module Code</th>
                             <th className="py-3.5 px-4">Module Title</th>
                             <th className="py-3.5 px-4 text-center">Credits</th>
+                            {programme.allModules.some((m) => !!m.semester) && (
+                              <th className="py-3.5 px-4 text-center">Semester</th>
+                            )}
                             <th className="py-3.5 px-4 text-right">Assessment</th>
                           </tr>
                         </thead>
@@ -358,9 +394,16 @@ export const ProgrammeDetailPage: React.FC<ProgrammeDetailPageProps> = ({
                               <td className="py-3.5 px-4 text-center font-mono font-bold text-neutral-700">
                                 {mod.credits}
                               </td>
+                              {programme.allModules?.some((m) => !!m.semester) && (
+                                <td className="py-3.5 px-4 text-center">
+                                  <span className="inline-block px-2.5 py-0.5 rounded-full bg-[#FFCC00]/20 text-[#111111] text-[11px] font-bold border border-[#FFCC00]/40">
+                                    {mod.semester || 'Core'}
+                                  </span>
+                                </td>
+                              )}
                               <td className="py-3.5 px-4 text-right">
                                 <span className="inline-block px-2.5 py-0.5 rounded-full bg-neutral-100 text-neutral-700 text-xs font-medium border border-neutral-200">
-                                  Coursework
+                                  {programme.assessmentNote ? 'Coursework & Exams' : 'Coursework'}
                                 </span>
                               </td>
                             </tr>
@@ -368,19 +411,29 @@ export const ProgrammeDetailPage: React.FC<ProgrammeDetailPageProps> = ({
                         </tbody>
                         <tfoot>
                           <tr className="bg-neutral-50 font-bold text-xs sm:text-sm border-t-2 border-neutral-200">
-                            <td colSpan={3} className="py-3.5 px-4 text-neutral-900">
-                              Total Programme Requirements (12 Modules)
+                            <td colSpan={programme.allModules.some((m) => !!m.semester) ? 4 : 3} className="py-3.5 px-4 text-neutral-900">
+                              Total Programme Requirements ({programme.allModules.length} Modules)
                             </td>
                             <td className="py-3.5 px-4 text-center font-mono text-[#111111]">
                               {programme.allModules.reduce((sum, m) => sum + m.credits, 0)} Credits
                             </td>
                             <td className="py-3.5 px-4 text-right font-medium text-neutral-600">
-                              100% Coursework
+                              {programme.assessmentNote ? 'Modular Weighting' : '100% Coursework'}
                             </td>
                           </tr>
                         </tfoot>
                       </table>
                     </div>
+
+                    {programme.assessmentNote && (
+                      <div className="p-4 bg-neutral-50 rounded-2xl border border-neutral-200 text-xs text-neutral-700 flex items-start gap-2.5">
+                        <FileText className="w-4 h-4 text-[#111111] shrink-0 mt-0.5" />
+                        <div>
+                          <strong className="text-neutral-900 font-bold">Assessment Note: </strong>
+                          {programme.assessmentNote}
+                        </div>
+                      </div>
+                    )}
                   </div>
                 ) : (
                   /* Stage/Year Breakdown Accordion / Tabs */
@@ -526,11 +579,23 @@ export const ProgrammeDetailPage: React.FC<ProgrammeDetailPageProps> = ({
                 <div className="p-5 bg-gradient-to-r from-neutral-900 to-neutral-800 text-white rounded-2xl space-y-3">
                   <div className="flex items-center gap-2 text-[#FFCC00] text-xs font-bold uppercase tracking-wider">
                     <Sparkles className="w-4 h-4" />
-                    <span>Degree Pathways</span>
+                    <span>{programme.progressionOpportunities?.some(p => p.toLowerCase().includes('master')) ? 'Postgraduate Progression' : 'Degree Pathways'}</span>
                   </div>
-                  <h3 className="text-lg font-bold">Top-Up Degrees &amp; Career Pathways</h3>
+                  <h3 className="text-lg font-bold">
+                    {programme.progressionOpportunities?.some(p => p.toLowerCase().includes('master'))
+                      ? 'Masters & Advanced Professional Career Pathways'
+                      : 'Top-Up Degrees & Career Pathways'}
+                  </h3>
                   <p className="text-xs sm:text-sm text-neutral-300 leading-relaxed">
-                    Graduates of the Higher National Diploma in Electrical and Electronic Engineering (HNDEEE) can progress to top-up degree programmes to complete a full Bachelor of Engineering (BEng) or Bachelor of Science (BSc) degree, or pursue dynamic careers across industry sectors.
+                    {programme.id === 'beng-electrical-electronics' ? (
+                      <>
+                        Graduates of the BEng (Hons) Electrical and Electronics Engineering programme, affiliated with the University of West England, earn a full honours degree that enables direct progression to Master’s programmes (MSc, MEng, MPhil, or PhD) as well as leading engineering careers in international electronics, energy, and robotics sectors.
+                      </>
+                    ) : (
+                      <>
+                        Graduates of {programme.title} can progress to top-up degree programmes to complete a full Bachelor of Engineering (BEng) or Bachelor of Science (BSc) degree, or pursue dynamic careers across leading industry sectors.
+                      </>
+                    )}
                   </p>
                 </div>
 
@@ -571,7 +636,7 @@ export const ProgrammeDetailPage: React.FC<ProgrammeDetailPageProps> = ({
                     <span>Intake Schedule</span>
                   </div>
                   <span className="px-3 py-1 rounded-full bg-[#FFCC00] text-[#111111] text-[11px] font-bold uppercase tracking-wider">
-                    18 Months Duration
+                    {programme.duration} Duration
                   </span>
                 </div>
 
@@ -653,6 +718,12 @@ export const ProgrammeDetailPage: React.FC<ProgrammeDetailPageProps> = ({
                 </div>
 
                 <div className="space-y-2.5 text-xs text-neutral-700">
+                  {programme.affiliatedInstitution && (
+                    <div className="flex justify-between py-1 border-b border-neutral-100">
+                      <span className="text-neutral-500">Affiliation:</span>
+                      <span className="font-bold text-[#111111] text-right">{programme.affiliatedInstitution}</span>
+                    </div>
+                  )}
                   <div className="flex justify-between py-1 border-b border-neutral-100">
                     <span className="text-neutral-500">Qualification:</span>
                     <span className="font-semibold text-[#111111] text-right">{programme.qualification}</span>
@@ -667,7 +738,7 @@ export const ProgrammeDetailPage: React.FC<ProgrammeDetailPageProps> = ({
                   </div>
                   <div className="flex justify-between py-1 border-b border-neutral-100">
                     <span className="text-neutral-500">Assessment:</span>
-                    <span className="font-semibold text-[#111111]">{programme.assessmentMethod || 'Coursework'}</span>
+                    <span className="font-semibold text-[#111111] text-right line-clamp-2">{programme.assessmentMethod || 'Coursework'}</span>
                   </div>
                   <div className="flex justify-between py-1 border-b border-neutral-100">
                     <span className="text-neutral-500">Intakes:</span>

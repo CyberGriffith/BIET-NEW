@@ -211,8 +211,13 @@ export const ProgrammesPage: React.FC<ProgrammesPageProps> = ({
                   <div className="p-6 sm:p-7 space-y-4 flex-1 flex flex-col justify-between">
                     <div className="space-y-3">
                       {/* School & Award Level */}
-                      <div className="flex items-center justify-between text-xs text-neutral-500">
+                      <div className="flex items-center justify-between text-xs text-neutral-500 flex-wrap gap-1">
                         <span className="font-semibold text-neutral-900">{programme.school}</span>
+                        {programme.affiliatedInstitution && (
+                          <span className="px-2 py-0.5 rounded bg-black text-[#FFCC00] text-[10px] font-bold uppercase tracking-wider">
+                            {programme.affiliatedInstitution}
+                          </span>
+                        )}
                       </div>
 
                       {/* Programme Name */}
