@@ -307,7 +307,7 @@ export const ProgrammeDetailPage: React.FC<ProgrammeDetailPageProps> = ({
                       </div>
                       <div className="space-y-0.5">
                         <span className="text-sm sm:text-base font-semibold text-neutral-900">{req}</span>
-                        {programme.id !== 'foundation-in-engineering' && (
+                        {programme.id !== 'foundation-in-engineering' && programme.id !== 'beng-mechanical-manufacturing' && (
                           <p className="text-xs text-neutral-500">
                             Students with relevant foundation diplomas or equivalent qualifications are encouraged to apply.
                           </p>
@@ -388,9 +388,16 @@ export const ProgrammeDetailPage: React.FC<ProgrammeDetailPageProps> = ({
                                 {mod.no}
                               </td>
                               <td className="py-3.5 px-4 font-mono font-bold text-[#111111]">
-                                <span className="bg-[#FFCC00]/25 px-2.5 py-1 rounded text-xs">
-                                  {mod.code}
-                                </span>
+                                <div className="flex items-center gap-1.5 flex-wrap">
+                                  <span className="bg-[#FFCC00]/25 px-2.5 py-1 rounded text-xs">
+                                    {mod.code}
+                                  </span>
+                                  {mod.moduleType && (
+                                    <span className="text-[10px] font-bold uppercase tracking-wider bg-neutral-100 text-neutral-700 px-1.5 py-0.5 rounded border border-neutral-200">
+                                      {mod.moduleType}
+                                    </span>
+                                  )}
+                                </div>
                               </td>
                               <td className="py-3.5 px-4 font-semibold text-neutral-900">
                                 {mod.title}
@@ -602,6 +609,10 @@ export const ProgrammeDetailPage: React.FC<ProgrammeDetailPageProps> = ({
                     {programme.id === 'foundation-in-engineering' ? (
                       <>
                         Students will be eligible for progression into Higher National Diploma (HND) programmes upon successful completion of the Foundation in Engineering.
+                      </>
+                    ) : programme.id === 'beng-mechanical-manufacturing' ? (
+                      <>
+                        Graduates of the BEng (Hons) Mechanical Engineering specialise in Manufacturing programme, affiliated with the University of West England, earn a full honours degree that enables direct progression to Master’s programmes (MSc, MEng, MPhil, or PhD).
                       </>
                     ) : programme.id === 'beng-electrical-electronics' ? (
                       <>

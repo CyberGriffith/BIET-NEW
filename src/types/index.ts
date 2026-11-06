@@ -20,6 +20,7 @@ export interface ProgrammeModuleItem {
   credits: number;
   creditsDisplay?: string;
   semester?: string;
+  moduleType?: string;
 }
 
 export interface ProgrammeGalleryImage {
