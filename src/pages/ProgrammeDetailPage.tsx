@@ -120,12 +120,14 @@ export const ProgrammeDetailPage: React.FC<ProgrammeDetailPageProps> = ({
                 {programme.title}
               </h1>
 
-              {programme.affiliatedInstitution && (
-                <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-xl bg-neutral-100 border border-neutral-200 text-xs text-neutral-800">
-                  <Award className="w-4 h-4 text-[#FFCC00] shrink-0" />
-                  <span>Awarding / Affiliated Institution: <strong>{programme.affiliatedInstitution}</strong></span>
-                </div>
-              )}
+              <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-xl bg-neutral-100 border border-neutral-200 text-xs text-neutral-800">
+                <Building className="w-4 h-4 text-[#111111] shrink-0" />
+                <span>
+                  {programme.affiliatedInstitution
+                    ? <>Awarding / Affiliated Institution: <strong>{programme.affiliatedInstitution}</strong></>
+                    : <>Institution: <strong>{programme.awardingBodyPlaceholder.includes('[') ? 'British Institute of Engineering Technology (BIET)' : programme.awardingBodyPlaceholder}</strong></>}
+                </span>
+              </div>
 
               <p className="text-base sm:text-lg text-neutral-600 leading-relaxed max-w-2xl">
                 {programme.overview}
@@ -305,9 +307,11 @@ export const ProgrammeDetailPage: React.FC<ProgrammeDetailPageProps> = ({
                       </div>
                       <div className="space-y-0.5">
                         <span className="text-sm sm:text-base font-semibold text-neutral-900">{req}</span>
-                        <p className="text-xs text-neutral-500">
-                          Students with relevant foundation diplomas or equivalent qualifications are encouraged to apply.
-                        </p>
+                        {programme.id !== 'foundation-in-engineering' && (
+                          <p className="text-xs text-neutral-500">
+                            Students with relevant foundation diplomas or equivalent qualifications are encouraged to apply.
+                          </p>
+                        )}
                       </div>
                     </li>
                   ))}
@@ -391,8 +395,8 @@ export const ProgrammeDetailPage: React.FC<ProgrammeDetailPageProps> = ({
                               <td className="py-3.5 px-4 font-semibold text-neutral-900">
                                 {mod.title}
                               </td>
-                              <td className="py-3.5 px-4 text-center font-mono font-bold text-neutral-700">
-                                {mod.credits}
+                              <td className="py-3.5 px-4 text-center font-mono font-bold text-neutral-700 whitespace-nowrap">
+                                {mod.creditsDisplay || mod.credits}
                               </td>
                               {programme.allModules?.some((m) => !!m.semester) && (
                                 <td className="py-3.5 px-4 text-center">
@@ -403,7 +407,7 @@ export const ProgrammeDetailPage: React.FC<ProgrammeDetailPageProps> = ({
                               )}
                               <td className="py-3.5 px-4 text-right">
                                 <span className="inline-block px-2.5 py-0.5 rounded-full bg-neutral-100 text-neutral-700 text-xs font-medium border border-neutral-200">
-                                  {programme.assessmentNote ? 'Coursework & Exams' : 'Coursework'}
+                                  {programme.assessmentMethod || (programme.assessmentNote ? 'Coursework & Exams' : 'Coursework')}
                                 </span>
                               </td>
                             </tr>
@@ -414,11 +418,11 @@ export const ProgrammeDetailPage: React.FC<ProgrammeDetailPageProps> = ({
                             <td colSpan={programme.allModules.some((m) => !!m.semester) ? 4 : 3} className="py-3.5 px-4 text-neutral-900">
                               Total Programme Requirements ({programme.allModules.length} Modules)
                             </td>
-                            <td className="py-3.5 px-4 text-center font-mono text-[#111111]">
-                              {programme.allModules.reduce((sum, m) => sum + m.credits, 0)} Credits
+                            <td className="py-3.5 px-4 text-center font-mono text-[#111111] whitespace-nowrap">
+                              {programme.totalCredits || `${programme.allModules.reduce((sum, m) => sum + m.credits, 0)} Credits`}
                             </td>
                             <td className="py-3.5 px-4 text-right font-medium text-neutral-600">
-                              {programme.assessmentNote ? 'Modular Weighting' : '100% Coursework'}
+                              {programme.assessmentMethod || (programme.assessmentNote ? 'Modular Weighting' : '100% Coursework')}
                             </td>
                           </tr>
                         </tfoot>
@@ -579,15 +583,27 @@ export const ProgrammeDetailPage: React.FC<ProgrammeDetailPageProps> = ({
                 <div className="p-5 bg-gradient-to-r from-neutral-900 to-neutral-800 text-white rounded-2xl space-y-3">
                   <div className="flex items-center gap-2 text-[#FFCC00] text-xs font-bold uppercase tracking-wider">
                     <Sparkles className="w-4 h-4" />
-                    <span>{programme.progressionOpportunities?.some(p => p.toLowerCase().includes('master')) ? 'Postgraduate Progression' : 'Degree Pathways'}</span>
+                    <span>
+                      {programme.id === 'foundation-in-engineering'
+                        ? 'Higher National Diploma (HND) Progression'
+                        : programme.progressionOpportunities?.some(p => p.toLowerCase().includes('master'))
+                        ? 'Postgraduate Progression'
+                        : 'Degree Pathways'}
+                    </span>
                   </div>
                   <h3 className="text-lg font-bold">
-                    {programme.progressionOpportunities?.some(p => p.toLowerCase().includes('master'))
+                    {programme.id === 'foundation-in-engineering'
+                      ? 'Eligibility for Higher National Diploma (HND)'
+                      : programme.progressionOpportunities?.some(p => p.toLowerCase().includes('master'))
                       ? 'Masters & Advanced Professional Career Pathways'
                       : 'Top-Up Degrees & Career Pathways'}
                   </h3>
                   <p className="text-xs sm:text-sm text-neutral-300 leading-relaxed">
-                    {programme.id === 'beng-electrical-electronics' ? (
+                    {programme.id === 'foundation-in-engineering' ? (
+                      <>
+                        Students will be eligible for progression into Higher National Diploma (HND) programmes upon successful completion of the Foundation in Engineering.
+                      </>
+                    ) : programme.id === 'beng-electrical-electronics' ? (
                       <>
                         Graduates of the BEng (Hons) Electrical and Electronics Engineering programme, affiliated with the University of West England, earn a full honours degree that enables direct progression to Master’s programmes (MSc, MEng, MPhil, or PhD) as well as leading engineering careers in international electronics, energy, and robotics sectors.
                       </>
@@ -647,27 +663,53 @@ export const ProgrammeDetailPage: React.FC<ProgrammeDetailPageProps> = ({
                   </p>
                 </div>
 
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 pt-1">
-                  {programme.intakes.map((intakeDate, i) => (
-                    <div
-                      key={i}
-                      className="p-5 bg-neutral-900 border border-neutral-800 rounded-2xl flex items-center justify-between gap-4"
-                    >
-                      <div className="space-y-1">
-                        <span className="text-[11px] font-bold text-neutral-400 uppercase tracking-wider">
-                          Cohort {i + 1}
-                        </span>
-                        <div className="text-lg font-extrabold text-[#FFCC00]">{intakeDate}</div>
-                        <span className="text-[11px] text-neutral-400 block">Registration Open</span>
-                      </div>
-                      <button
-                        onClick={() => onApplyClick(programme.title)}
-                        className="px-4 py-2 text-xs font-bold text-[#111111] bg-[#FFCC00] hover:bg-[#E6B800] rounded-xl transition-all cursor-pointer whitespace-nowrap"
+                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 pt-1">
+                  {programme.intakes.map((intakeDate, i) => {
+                    const isNextStartingDate =
+                      intakeDate.toLowerCase().includes('next starting') ||
+                      (programme.nextIntakeHighlight && intakeDate.includes(programme.nextIntakeHighlight));
+                    const cleanDate = intakeDate.split(' – ')[0].replace(' – Next Starting Date', '').trim();
+
+                    return (
+                      <div
+                        key={i}
+                        className={`p-5 rounded-2xl flex flex-col justify-between gap-4 transition-all relative overflow-hidden ${
+                          isNextStartingDate
+                            ? 'bg-neutral-900 border-2 border-[#FFCC00] shadow-lg shadow-[#FFCC00]/10 ring-1 ring-[#FFCC00]/30'
+                            : 'bg-neutral-900 border border-neutral-800'
+                        }`}
                       >
-                        Apply
-                      </button>
-                    </div>
-                  ))}
+                        {isNextStartingDate && (
+                          <div className="absolute top-0 right-0 bg-[#FFCC00] text-[#111111] text-[9px] font-extrabold uppercase px-2.5 py-0.5 rounded-bl-lg tracking-wider">
+                            Next Starting Date
+                          </div>
+                        )}
+                        <div className="space-y-1.5 pt-1">
+                          <span className="text-[11px] font-bold text-neutral-400 uppercase tracking-wider block">
+                            Intake {i + 1}
+                          </span>
+                          <div className="text-lg font-extrabold text-[#FFCC00] leading-snug">{cleanDate}</div>
+                          {isNextStartingDate ? (
+                            <span className="text-[11px] font-bold text-[#FFCC00] flex items-center gap-1">
+                              ● Priority Enrolment Open
+                            </span>
+                          ) : (
+                            <span className="text-[11px] text-neutral-400 block">Registration Open</span>
+                          )}
+                        </div>
+                        <button
+                          onClick={() => onApplyClick(programme.title)}
+                          className={`w-full py-2.5 text-xs font-bold rounded-xl transition-all cursor-pointer text-center ${
+                            isNextStartingDate
+                              ? 'bg-[#FFCC00] hover:bg-[#E6B800] text-[#111111] shadow-xs'
+                              : 'bg-neutral-800 hover:bg-neutral-700 text-white'
+                          }`}
+                        >
+                          Apply for Intake {i + 1}
+                        </button>
+                      </div>
+                    );
+                  })}
                 </div>
               </div>
 
