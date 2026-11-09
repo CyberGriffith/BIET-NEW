@@ -123,7 +123,7 @@ export const ProgrammeDetailPage: React.FC<ProgrammeDetailPageProps> = ({
               <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-xl bg-neutral-100 border border-neutral-200 text-xs text-neutral-800">
                 <Building className="w-4 h-4 text-[#111111] shrink-0" />
                 <span>
-                  {programme.id === 'diploma-in-computing' ? (
+                  {programme.affiliatedInstitution === 'TVEC (Pending)' ? (
                     <>Institution: <strong>British Institute of Engineering Technology (BIET)</strong> · Affiliation: <strong>TVEC (Pending)</strong></>
                   ) : programme.affiliatedInstitution ? (
                     <>Awarding / Affiliated Institution: <strong>{programme.affiliatedInstitution}</strong></>
@@ -322,8 +322,8 @@ export const ProgrammeDetailPage: React.FC<ProgrammeDetailPageProps> = ({
                         ✓
                       </div>
                       <div className="space-y-0.5">
-                        <span className="text-sm sm:text-base font-semibold text-neutral-900">{req}</span>
-                        {programme.id !== 'foundation-in-engineering' && programme.id !== 'beng-mechanical-manufacturing' && programme.id !== 'beng-mechanical-mechatronics' && programme.id !== 'diploma-in-computing' && (
+                        <span className="text-sm sm:text-base font-semibold text-neutral-900 whitespace-pre-line">{req}</span>
+                        {programme.id !== 'foundation-in-engineering' && programme.id !== 'beng-mechanical-manufacturing' && programme.id !== 'beng-mechanical-mechatronics' && programme.id !== 'diploma-in-computing' && programme.id !== 'hnd-artificial-intelligence' && (
                           <p className="text-xs text-neutral-500">
                             Students with relevant foundation diplomas or equivalent qualifications are encouraged to apply.
                           </p>
@@ -391,6 +391,9 @@ export const ProgrammeDetailPage: React.FC<ProgrammeDetailPageProps> = ({
                             <th className="py-3.5 px-4">Module Code</th>
                             <th className="py-3.5 px-4">Module Title</th>
                             <th className="py-3.5 px-4 text-center">Credits</th>
+                            {programme.allModules.some((m) => !!m.academicYear) && (
+                              <th className="py-3.5 px-4 text-center">Academic Year</th>
+                            )}
                             {programme.allModules.some((m) => !!m.semester) && (
                               <th className="py-3.5 px-4 text-center">Semester</th>
                             )}
@@ -421,6 +424,13 @@ export const ProgrammeDetailPage: React.FC<ProgrammeDetailPageProps> = ({
                               <td className="py-3.5 px-4 text-center font-mono font-bold text-neutral-700 whitespace-nowrap">
                                 {mod.creditsDisplay || mod.credits}
                               </td>
+                              {programme.allModules?.some((m) => !!m.academicYear) && (
+                                <td className="py-3.5 px-4 text-center font-mono text-xs text-neutral-700 whitespace-nowrap">
+                                  <span className="inline-block px-2.5 py-0.5 rounded-full bg-neutral-100 text-neutral-800 text-[11px] font-medium border border-neutral-200">
+                                    {mod.academicYear || '2026/27'}
+                                  </span>
+                                </td>
+                              )}
                               {programme.allModules?.some((m) => !!m.semester) && (
                                 <td className="py-3.5 px-4 text-center">
                                   <span className="inline-block px-2.5 py-0.5 rounded-full bg-[#FFCC00]/20 text-[#111111] text-[11px] font-bold border border-[#FFCC00]/40">
@@ -438,7 +448,7 @@ export const ProgrammeDetailPage: React.FC<ProgrammeDetailPageProps> = ({
                         </tbody>
                         <tfoot>
                           <tr className="bg-neutral-50 font-bold text-xs sm:text-sm border-t-2 border-neutral-200">
-                            <td colSpan={programme.allModules.some((m) => !!m.semester) ? 4 : 3} className="py-3.5 px-4 text-neutral-900">
+                            <td colSpan={3 + (programme.allModules.some((m) => !!m.academicYear) ? 1 : 0) + (programme.allModules.some((m) => !!m.semester) ? 1 : 0)} className="py-3.5 px-4 text-neutral-900">
                               Total Programme Requirements ({programme.allModules.length} Modules)
                             </td>
                             <td className="py-3.5 px-4 text-center font-mono text-[#111111] whitespace-nowrap">
@@ -609,6 +619,8 @@ export const ProgrammeDetailPage: React.FC<ProgrammeDetailPageProps> = ({
                     <span>
                       {programme.id === 'foundation-in-engineering' || programme.id === 'diploma-in-computing'
                         ? 'Higher National Diploma (HND) Progression'
+                        : programme.id === 'hnd-artificial-intelligence'
+                        ? 'Top-Up Degree Progression'
                         : programme.progressionOpportunities?.some(p => p.toLowerCase().includes('master'))
                         ? 'Postgraduate Progression'
                         : 'Degree Pathways'}
@@ -617,12 +629,18 @@ export const ProgrammeDetailPage: React.FC<ProgrammeDetailPageProps> = ({
                   <h3 className="text-lg font-bold">
                     {programme.id === 'foundation-in-engineering' || programme.id === 'diploma-in-computing'
                       ? 'Eligibility for Higher National Diploma (HND) Programmes'
+                      : programme.id === 'hnd-artificial-intelligence'
+                      ? 'Top-Up Degree Programmes'
                       : programme.progressionOpportunities?.some(p => p.toLowerCase().includes('master'))
                       ? 'Masters & Advanced Professional Career Pathways'
                       : 'Top-Up Degrees & Career Pathways'}
                   </h3>
                   <p className="text-xs sm:text-sm text-neutral-300 leading-relaxed">
-                    {programme.id === 'diploma-in-computing' ? (
+                    {programme.id === 'hnd-artificial-intelligence' ? (
+                      <>
+                        Graduates of the Higher National Diploma in Artificial Intelligence (AI) can progress directly into Top-Up Degree Programmes to complete a full Bachelor of Science (BSc Hons) or Bachelor of Engineering (BEng Hons) degree.
+                      </>
+                    ) : programme.id === 'diploma-in-computing' ? (
                       <>
                         Students will be eligible for progression into Higher National Diploma (HND) programmes upon successful completion of the Diploma in Computing.
                       </>

@@ -20,6 +20,7 @@ export interface ProgrammeModuleItem {
   credits: number;
   creditsDisplay?: string;
   semester?: string;
+  academicYear?: string;
   moduleType?: string;
 }
 
