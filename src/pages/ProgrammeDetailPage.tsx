@@ -235,7 +235,7 @@ export const ProgrammeDetailPage: React.FC<ProgrammeDetailPageProps> = ({
               <div className="bg-white p-4 rounded-2xl border border-neutral-200 shadow-2xs">
                 <div className="text-neutral-500 flex items-center gap-1.5 mb-1.5 font-medium">
                   <Clock className="w-4 h-4 text-[#111111]" />
-                  <span>{programme.id === 'hnd-cyber-security-digital-forensics' ? 'Study Method' : 'Study Schedule'}</span>
+                  <span>{programme.id === 'hnd-cyber-security-digital-forensics' || programme.id === 'hnd-software-engineering' ? 'Study Method' : 'Study Schedule'}</span>
                 </div>
                 <div className="font-extrabold text-[#111111] text-xs sm:text-sm">
                   {programme.studySchedule}
@@ -323,7 +323,7 @@ export const ProgrammeDetailPage: React.FC<ProgrammeDetailPageProps> = ({
                       </div>
                       <div className="space-y-0.5">
                         <span className="text-sm sm:text-base font-semibold text-neutral-900 whitespace-pre-line">{req}</span>
-                        {programme.id !== 'foundation-in-engineering' && programme.id !== 'beng-mechanical-manufacturing' && programme.id !== 'beng-mechanical-mechatronics' && programme.id !== 'diploma-in-computing' && programme.id !== 'hnd-artificial-intelligence' && programme.id !== 'hnd-cyber-security-digital-forensics' && (
+                        {programme.id !== 'foundation-in-engineering' && programme.id !== 'beng-mechanical-manufacturing' && programme.id !== 'beng-mechanical-mechatronics' && programme.id !== 'diploma-in-computing' && programme.id !== 'hnd-artificial-intelligence' && programme.id !== 'hnd-cyber-security-digital-forensics' && programme.id !== 'hnd-software-engineering' && (
                           <p className="text-xs text-neutral-500">
                             Students with relevant foundation diplomas or equivalent qualifications are encouraged to apply.
                           </p>
@@ -391,7 +391,7 @@ export const ProgrammeDetailPage: React.FC<ProgrammeDetailPageProps> = ({
                             <th className="py-3.5 px-4">Module Code</th>
                             <th className="py-3.5 px-4">Module Title</th>
                             <th className="py-3.5 px-4 text-center">Credits</th>
-                            {programme.id === 'hnd-cyber-security-digital-forensics' ? (
+                            {programme.id === 'hnd-cyber-security-digital-forensics' || programme.id === 'hnd-software-engineering' ? (
                               <th className="py-3.5 px-4 text-center">Year / Semester</th>
                             ) : (
                               <>
@@ -420,7 +420,7 @@ export const ProgrammeDetailPage: React.FC<ProgrammeDetailPageProps> = ({
                                   <span className="bg-[#FFCC00]/25 px-2.5 py-1 rounded text-xs">
                                     {mod.code}
                                   </span>
-                                  {mod.moduleType && programme.id !== 'hnd-cyber-security-digital-forensics' && (
+                                  {mod.moduleType && programme.id !== 'hnd-cyber-security-digital-forensics' && programme.id !== 'hnd-software-engineering' && (
                                     <span className="text-[10px] font-bold uppercase tracking-wider bg-neutral-100 text-neutral-700 px-1.5 py-0.5 rounded border border-neutral-200">
                                       {mod.moduleType}
                                     </span>
@@ -433,7 +433,7 @@ export const ProgrammeDetailPage: React.FC<ProgrammeDetailPageProps> = ({
                               <td className="py-3.5 px-4 text-center font-mono font-bold text-neutral-700 whitespace-nowrap">
                                 {mod.creditsDisplay || mod.credits}
                               </td>
-                              {programme.id === 'hnd-cyber-security-digital-forensics' ? (
+                              {programme.id === 'hnd-cyber-security-digital-forensics' || programme.id === 'hnd-software-engineering' ? (
                                 <td className="py-3.5 px-4 text-center whitespace-nowrap">
                                   <span className="inline-block px-2.5 py-0.5 rounded-full bg-[#FFCC00]/20 text-[#111111] text-[11px] font-bold border border-[#FFCC00]/40">
                                     {mod.academicYear ? `${mod.academicYear} – ${mod.semester}` : mod.semester}
@@ -476,7 +476,7 @@ export const ProgrammeDetailPage: React.FC<ProgrammeDetailPageProps> = ({
                           <tr className="bg-neutral-50 font-bold text-xs sm:text-sm border-t-2 border-neutral-200">
                             <td colSpan={
                               3 +
-                              (programme.id === 'hnd-cyber-security-digital-forensics'
+                              (programme.id === 'hnd-cyber-security-digital-forensics' || programme.id === 'hnd-software-engineering'
                                 ? 1
                                 : (programme.allModules.some((m) => !!m.academicYear) ? 1 : 0) + (programme.allModules.some((m) => !!m.semester) ? 1 : 0)
                               ) +
@@ -652,7 +652,7 @@ export const ProgrammeDetailPage: React.FC<ProgrammeDetailPageProps> = ({
                     <span>
                       {programme.id === 'foundation-in-engineering' || programme.id === 'diploma-in-computing'
                         ? 'Higher National Diploma (HND) Progression'
-                        : programme.id === 'hnd-artificial-intelligence' || programme.id === 'hnd-cyber-security-digital-forensics'
+                        : programme.id === 'hnd-artificial-intelligence' || programme.id === 'hnd-cyber-security-digital-forensics' || programme.id === 'hnd-software-engineering'
                         ? 'Top - Up Degree Progression'
                         : programme.progressionOpportunities?.some(p => p.toLowerCase().includes('master'))
                         ? 'Postgraduate Progression'
@@ -662,14 +662,18 @@ export const ProgrammeDetailPage: React.FC<ProgrammeDetailPageProps> = ({
                   <h3 className="text-lg font-bold">
                     {programme.id === 'foundation-in-engineering' || programme.id === 'diploma-in-computing'
                       ? 'Eligibility for Higher National Diploma (HND) Programmes'
-                      : programme.id === 'hnd-artificial-intelligence' || programme.id === 'hnd-cyber-security-digital-forensics'
+                      : programme.id === 'hnd-artificial-intelligence' || programme.id === 'hnd-cyber-security-digital-forensics' || programme.id === 'hnd-software-engineering'
                       ? 'Top - Up Degree Programmes'
                       : programme.progressionOpportunities?.some(p => p.toLowerCase().includes('master'))
                       ? 'Masters & Advanced Professional Career Pathways'
                       : 'Top-Up Degrees & Career Pathways'}
                   </h3>
                   <p className="text-xs sm:text-sm text-neutral-300 leading-relaxed">
-                    {programme.id === 'hnd-cyber-security-digital-forensics' ? (
+                    {programme.id === 'hnd-software-engineering' ? (
+                      <>
+                        Graduates of the Higher National Diploma in Software Engineering (SE) can progress directly into Top - Up Degree Programmes to complete a full Bachelor of Science (BSc) or Bachelor of Engineering (BEng) degree.
+                      </>
+                    ) : programme.id === 'hnd-cyber-security-digital-forensics' ? (
                       <>
                         Graduates of the Higher National Diploma in Cyber Security and Digital Forensics can progress directly into Top - Up Degree Programmes to complete a full Bachelor of Science (BSc) or Bachelor of Engineering (BEng) degree.
                       </>
