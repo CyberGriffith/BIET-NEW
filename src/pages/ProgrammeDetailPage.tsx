@@ -123,9 +123,13 @@ export const ProgrammeDetailPage: React.FC<ProgrammeDetailPageProps> = ({
               <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-xl bg-neutral-100 border border-neutral-200 text-xs text-neutral-800">
                 <Building className="w-4 h-4 text-[#111111] shrink-0" />
                 <span>
-                  {programme.affiliatedInstitution
-                    ? <>Awarding / Affiliated Institution: <strong>{programme.affiliatedInstitution}</strong></>
-                    : <>Institution: <strong>{programme.awardingBodyPlaceholder.includes('[') ? 'British Institute of Engineering Technology (BIET)' : programme.awardingBodyPlaceholder}</strong></>}
+                  {programme.id === 'diploma-in-computing' ? (
+                    <>Institution: <strong>British Institute of Engineering Technology (BIET)</strong> · Affiliation: <strong>TVEC (Pending)</strong></>
+                  ) : programme.affiliatedInstitution ? (
+                    <>Awarding / Affiliated Institution: <strong>{programme.affiliatedInstitution}</strong></>
+                  ) : (
+                    <>Institution: <strong>{programme.awardingBodyPlaceholder.includes('[') ? 'British Institute of Engineering Technology (BIET)' : programme.awardingBodyPlaceholder}</strong></>
+                  )}
                 </span>
               </div>
 
@@ -184,7 +188,7 @@ export const ProgrammeDetailPage: React.FC<ProgrammeDetailPageProps> = ({
           </div>
 
           {/* 2. Programme Overview Ribbon */}
-          <div className={`mt-10 pt-8 border-t border-neutral-200 grid grid-cols-2 sm:grid-cols-3 ${programme.affiliatedInstitution ? 'lg:grid-cols-6' : 'lg:grid-cols-5'} gap-4 text-xs`}>
+          <div className={`mt-10 pt-8 border-t border-neutral-200 grid grid-cols-2 sm:grid-cols-3 ${programme.affiliatedInstitution && programme.studySchedule ? 'lg:grid-cols-4 xl:grid-cols-7' : programme.affiliatedInstitution || programme.studySchedule ? 'lg:grid-cols-6' : 'lg:grid-cols-5'} gap-4 text-xs`}>
             <div className="bg-white p-4 rounded-2xl border border-neutral-200 shadow-2xs">
               <div className="text-neutral-500 flex items-center gap-1.5 mb-1.5 font-medium">
                 <Clock className="w-4 h-4 text-[#111111]" />
@@ -226,6 +230,18 @@ export const ProgrammeDetailPage: React.FC<ProgrammeDetailPageProps> = ({
                 {programme.assessmentMethod || 'Coursework & Exams'}
               </div>
             </div>
+
+            {programme.studySchedule && (
+              <div className="bg-white p-4 rounded-2xl border border-neutral-200 shadow-2xs">
+                <div className="text-neutral-500 flex items-center gap-1.5 mb-1.5 font-medium">
+                  <Clock className="w-4 h-4 text-[#111111]" />
+                  <span>Study Schedule</span>
+                </div>
+                <div className="font-extrabold text-[#111111] text-xs sm:text-sm">
+                  {programme.studySchedule}
+                </div>
+              </div>
+            )}
 
             <div className="bg-white p-4 rounded-2xl border border-neutral-200 shadow-2xs">
               <div className="text-neutral-500 flex items-center gap-1.5 mb-1.5 font-medium">
@@ -307,7 +323,7 @@ export const ProgrammeDetailPage: React.FC<ProgrammeDetailPageProps> = ({
                       </div>
                       <div className="space-y-0.5">
                         <span className="text-sm sm:text-base font-semibold text-neutral-900">{req}</span>
-                        {programme.id !== 'foundation-in-engineering' && programme.id !== 'beng-mechanical-manufacturing' && programme.id !== 'beng-mechanical-mechatronics' && (
+                        {programme.id !== 'foundation-in-engineering' && programme.id !== 'beng-mechanical-manufacturing' && programme.id !== 'beng-mechanical-mechatronics' && programme.id !== 'diploma-in-computing' && (
                           <p className="text-xs text-neutral-500">
                             Students with relevant foundation diplomas or equivalent qualifications are encouraged to apply.
                           </p>
@@ -591,7 +607,7 @@ export const ProgrammeDetailPage: React.FC<ProgrammeDetailPageProps> = ({
                   <div className="flex items-center gap-2 text-[#FFCC00] text-xs font-bold uppercase tracking-wider">
                     <Sparkles className="w-4 h-4" />
                     <span>
-                      {programme.id === 'foundation-in-engineering'
+                      {programme.id === 'foundation-in-engineering' || programme.id === 'diploma-in-computing'
                         ? 'Higher National Diploma (HND) Progression'
                         : programme.progressionOpportunities?.some(p => p.toLowerCase().includes('master'))
                         ? 'Postgraduate Progression'
@@ -599,14 +615,18 @@ export const ProgrammeDetailPage: React.FC<ProgrammeDetailPageProps> = ({
                     </span>
                   </div>
                   <h3 className="text-lg font-bold">
-                    {programme.id === 'foundation-in-engineering'
-                      ? 'Eligibility for Higher National Diploma (HND)'
+                    {programme.id === 'foundation-in-engineering' || programme.id === 'diploma-in-computing'
+                      ? 'Eligibility for Higher National Diploma (HND) Programmes'
                       : programme.progressionOpportunities?.some(p => p.toLowerCase().includes('master'))
                       ? 'Masters & Advanced Professional Career Pathways'
                       : 'Top-Up Degrees & Career Pathways'}
                   </h3>
                   <p className="text-xs sm:text-sm text-neutral-300 leading-relaxed">
-                    {programme.id === 'foundation-in-engineering' ? (
+                    {programme.id === 'diploma-in-computing' ? (
+                      <>
+                        Students will be eligible for progression into Higher National Diploma (HND) programmes upon successful completion of the Diploma in Computing.
+                      </>
+                    ) : programme.id === 'foundation-in-engineering' ? (
                       <>
                         Students will be eligible for progression into Higher National Diploma (HND) programmes upon successful completion of the Foundation in Engineering.
                       </>
@@ -789,6 +809,12 @@ export const ProgrammeDetailPage: React.FC<ProgrammeDetailPageProps> = ({
                     <span className="text-neutral-500">Duration:</span>
                     <span className="font-semibold text-[#111111]">{programme.duration}</span>
                   </div>
+                  {programme.studySchedule && (
+                    <div className="flex justify-between py-1 border-b border-neutral-100">
+                      <span className="text-neutral-500">Study Schedule:</span>
+                      <span className="font-semibold text-[#111111]">{programme.studySchedule}</span>
+                    </div>
+                  )}
                   <div className="flex justify-between py-1 border-b border-neutral-100">
                     <span className="text-neutral-500">Credits:</span>
                     <span className="font-semibold text-[#111111]">{programme.totalCredits || '360 UK'}</span>

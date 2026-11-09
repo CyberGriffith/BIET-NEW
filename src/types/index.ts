@@ -58,6 +58,7 @@ export interface Programme {
   assessmentMethod?: string;
   assessmentNote?: string;
   affiliatedInstitution?: string;
+  studySchedule?: string;
   progressionOpportunities?: string[];
   nextIntakeHighlight?: string;
   allModules?: ProgrammeModuleItem[];
